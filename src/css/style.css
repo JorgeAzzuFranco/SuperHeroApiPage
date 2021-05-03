@@ -1,0 +1,32 @@
+nav {
+	background-color: #1d7564;
+	color: #fff;
+	font-weight: bold; 
+}
+
+#titulo{
+	font-size: 30px;
+	text-align: center;
+}
+
+body{
+	background-color: lightgray;
+}
+
+#content {
+	margin: 3.5rem 3rem 3.5rem 3rem;	
+}
+
+.row{
+	padding-top: 1em;
+}
+
+a {
+	text-decoration: none;
+}
+
+footer{
+	background-color: #1d7564;
+	color: #fff
+	padding: 20px;
+}
