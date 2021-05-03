@@ -52,14 +52,21 @@ function seeAll() {
 			</div>
 		</div>
 	` );*/
-	
-	$.ajax({
+	for (var it = 0; it < 50; it++) {
+		$.ajax({
 		url: "src/ajax/php_calls/seeAllHeroesVillains.php",
 		datatype: 'text',
+		data:{
+			'index': it
+		},
 		success: function (response) {
 			var data = JSON.parse(response);
-			$('#contenido').html(`
-				<div class="row">
+
+			if (it%4 == 0) {
+				contenido.append('<div class="row">');
+			}
+			else{
+				$('#contenido').append(`
 					<div class="col-lg-4">
 						<div class="col" border=1>
 							<img src="` + data.image.url + `" 
@@ -74,14 +81,20 @@ function seeAll() {
 							</div>					
 						</div>
 					</div>
-				</div>
-			`);
+				`);
+			}
+			if (index%4 == 0) {
+				contenido.append('</div>');
+			}
+			
 
 		},
 		error:function (fail) {
 			console.log(fail);
 		}
 	});
+	}
+	
 }
 
 function seeFavs(){
@@ -165,7 +178,7 @@ function seeDetails(id) {
 				<div class="row">
 					<div class="col-lg-1"></div>
 					<div class="col-lg-3">
-						<img src="https://www.superherodb.com/pictures2/portraits/10/100/10060.jpg" 
+						<img src="` + data.image.url + `" 
 								height="100%" width="100%"/>
 					</div>
 					<div class="col-lg-6">
@@ -232,11 +245,10 @@ function seeDetails(id) {
 
 function search(name) {
 	const contenido = $('#contenido');
-	//contenido.empty();
+	contenido.empty();
 
 	var name = name.trim();
 
-	contenido.html("no hago la peticion aun");
 	$.ajax({
 		url: "src/ajax/php_calls/searchHero.php",
 		datatype: "text",
@@ -252,20 +264,25 @@ function search(name) {
 			var aux = 0;
 			var c = 0;
 			
-			contenido.html('antes del desastre');
-			for (var i = data.results.length - 1; i >= 0; i--) {
-				contenido.html("<pre>" + data.results[i] + "</pre>");
-<			}
-			/*while(lines > 0){
+			//contenido.html('antes del desastre');
+			
+			/*for (var i = 0; i < data.results.length; i++) {
+				contenido.append(data.results[i].name);
+			}*/
+			/*for (var i = 0; i < dataLength; i++) {
+				contenido.html("<pre>" + data.results[i].name + "</pre>");
+			}*/
+			while(lines > 0){
 				counter = 0;
 				console.log("Lineas restantes: " + lines);
-				//contenido.html('<div class="row">');
-				contenido.html('<h1>row</h1>');
+				contenido.append('<div class="row">');
+				/*contenido.html('<h1>row</h1>');
+				contenido.html("<pre>" + data.results + "</pre>");*/
 				while(counter < 3 && c < dataLength-1){
 					c = aux + counter;
-					console.log("Contador en: " + c + " Heroe: " + data.results[parseInt(c)].name);
-					contenido.html(c);
-					/*contenido.html(`
+					/*console.log("Contador en: " + c + " Heroe: " + data.results[parseInt(c)].name);
+					contenido.html(c);*/
+					contenido.append(`
 						<div class="col-lg-4">
 						<div class="col" border=1>
 							<img src="` + data.results[parseInt(c)].image.url + `" 
@@ -284,9 +301,9 @@ function search(name) {
 					counter++;
 				}
 				aux = aux + counter;
-				contenido.html('</div>');
+				contenido.append('</div>');
 				lines--;
-			}*/
+			}
 		},
 		error: function (fail) {
 			console.log(fail);
